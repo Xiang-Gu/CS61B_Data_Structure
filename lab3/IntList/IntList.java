@@ -1,4 +1,3 @@
-import javax.swing.text.html.InlineView;
 import java.util.Formatter;
 
 /**
@@ -12,11 +11,11 @@ public class IntList {
     /**
      * First element of list.
      */
-    public int first;
+    private int first;
     /**
      * Remaining elements of list.
      */
-    public IntList rest;
+    private IntList rest;
 
     /**
      * A List with first FIRST0 and rest REST0.
@@ -84,8 +83,7 @@ public class IntList {
     public static IntList dcatenate(IntList A, IntList B) {
         if (A == null) {
             return B;
-        }
-        else {
+        } else {
             IntList ptr = A;
             while (ptr.rest != null) {
                 ptr = ptr.rest;
@@ -102,11 +100,9 @@ public class IntList {
     public static IntList catenate(IntList A, IntList B) {
         if (A == null && B == null)  {
             return null;
-        }
-        else if (A == null) {
+        } else if (A == null) {
             return catenate(B, null);
-        }
-        else {
+        } else {
             IntList res = new IntList(A.first, null);
             IntList ptr = res;
             A = A.rest;
@@ -123,6 +119,34 @@ public class IntList {
                 B = B.rest;
             }
             return res;
+        }
+    }
+
+    /**
+     * Returns the reverse of the given IntList.
+     * This method is destructive. If given null
+     * as an input, returns null.
+     */
+    public static IntList reverse(IntList A) {
+        if (A == null) {
+            return null;
+        } else {
+            // Scan the list from start to end once
+            // and keep changing each node to point
+            // to the previous node along the way to
+            // achieve in-place reverse effect.
+            IntList ptr1 = null;
+            IntList ptr2 = A;
+            IntList tmp = null;
+
+            while (ptr2 != null) {
+                tmp = ptr2.rest;
+                ptr2.rest = ptr1;
+                ptr1 = ptr2;
+                ptr2 = tmp;
+            }
+
+            return ptr1;
         }
     }
 
