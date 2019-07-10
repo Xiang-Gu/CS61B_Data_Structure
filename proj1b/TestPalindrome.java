@@ -1,4 +1,4 @@
-/*import org.junit.Test;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TestPalindrome {
@@ -15,4 +15,33 @@ public class TestPalindrome {
         }
         assertEquals("persiflage", actual);
     }
-}     Uncomment this class once you've created your Palindrome class. */
+
+    @Test
+    public void testIsPalindrome() {
+        assertTrue(palindrome.isPalindrome(""));
+        assertTrue(palindrome.isPalindrome(" "));
+        assertTrue(palindrome.isPalindrome("x"));
+        assertTrue(palindrome.isPalindrome("$"));
+        assertTrue(palindrome.isPalindrome("noon"));
+        assertTrue(palindrome.isPalindrome("mbabm"));
+        assertFalse(palindrome.isPalindrome("ab"));
+        assertFalse(palindrome.isPalindrome("carbon"));
+        assertFalse(palindrome.isPalindrome("ten$cent"));
+        assertFalse(palindrome.isPalindrome("Noon"));
+    }
+
+    @Test
+    public void testOverloadedIsPalindrome() {
+        CharacterComparator cc = new OffByOne();
+        assertTrue(palindrome.isPalindrome("", cc));
+        assertTrue(palindrome.isPalindrome("$", cc));
+        assertTrue(palindrome.isPalindrome("ab", cc));
+        assertTrue(palindrome.isPalindrome("xyy", cc));
+        assertTrue(palindrome.isPalindrome("xb%*&ay", cc));
+        assertFalse(palindrome.isPalindrome("noon", cc));
+        assertFalse(palindrome.isPalindrome("aba", cc));
+        assertFalse(palindrome.isPalindrome("((", cc));
+        assertFalse(palindrome.isPalindrome("adfzaecb", cc));
+    }
+
+}
