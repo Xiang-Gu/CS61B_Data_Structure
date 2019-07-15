@@ -10,6 +10,10 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
 
+import static huglife.HugLifeUtils.randomEntry;
+import static java.lang.Math.min;
+import static java.lang.StrictMath.max;
+
 /**
  * An implementation of a motile pacifist photosynthesizer.
  *
@@ -57,7 +61,9 @@ public class Plip extends Creature {
      * that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        r = 99;
+        b = 76;
+        g = (int) (96 * energy + 63);
         return color(r, g, b);
     }
 
@@ -74,7 +80,8 @@ public class Plip extends Creature {
      * private static final variable. This is not required for this lab.
      */
     public void move() {
-        // TODO
+        energy -= 0.15;
+        energy = max(energy, 0.0);
     }
 
 
@@ -82,7 +89,8 @@ public class Plip extends Creature {
      * Plips gain 0.2 energy when staying due to photosynthesis.
      */
     public void stay() {
-        // TODO
+        energy += 0.2;
+        energy = min(energy, 2.0);
     }
 
     /**
@@ -91,7 +99,9 @@ public class Plip extends Creature {
      * Plip.
      */
     public Plip replicate() {
-        return this;
+        Plip juniorPlip = new Plip(energy / 2);
+        energy /= 2;
+        return juniorPlip;
     }
 
     /**
@@ -111,18 +121,26 @@ public class Plip extends Creature {
         // Rule 1
         Deque<Direction> emptyNeighbors = new ArrayDeque<>();
         boolean anyClorus = false;
-        // TODO
-        // (Google: Enhanced for-loop over keys of NEIGHBORS?)
-        // for () {...}
-
-        if (false) { // FIXME
-            // TODO
+        for (Direction d : neighbors.keySet()) {
+            if (neighbors.get(d).name().equals("empty")) {
+                emptyNeighbors.add(d);
+            }
+        }
+        if (emptyNeighbors.size() == 0) {
+            return new Action(Action.ActionType.STAY);
         }
 
         // Rule 2
         // HINT: randomEntry(emptyNeighbors)
+        if (energy >= 1.0) {
+            return new Action(Action.ActionType.REPLICATE, randomEntry(emptyNeighbors));
+        }
 
         // Rule 3
+        double moveProbability = 0.5;
+        if (anyClorus && Math.random() < moveProbability) {
+            return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
+        }
 
         // Rule 4
         return new Action(Action.ActionType.STAY);
