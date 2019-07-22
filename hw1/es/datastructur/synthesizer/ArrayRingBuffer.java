@@ -1,10 +1,6 @@
 package es.datastructur.synthesizer;
 import java.util.Iterator;
 
-//TODO: Make sure to that this class and all of its methods are public
-//TODO: Make sure to add the override tag for all overridden methods
-//TODO: Make sure to make this class implement BoundedQueue<T>
-
 public class ArrayRingBuffer<T> implements BoundedQueue<T>  {
     /* Index for the next dequeue or peek. */
     private int first;
@@ -86,6 +82,59 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T>  {
     public int fillCount() {
         return fillCount;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        ArrayRingBuffer other = (ArrayRingBuffer) o;
+
+        // Iterate over both arrays and compare items one by one
+        Iterator<T> it = iterator();
+        Iterator<T> itOther = other.iterator();
+        while (it.hasNext() && itOther.hasNext()) {
+            T item = it.next();
+            T itemOther = itOther.next();
+            if (!item.equals(itemOther)) {
+                return false;
+            }
+        }
+
+        // If both reached the end of the array, return true;
+        if (!it.hasNext() && !itOther.hasNext()) {
+            return true;
+        } else {
+            // Otherwise, one array is longer than the other.
+            return false;
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayRingBufferIterator();
+    }
+
+    /** A private class that implements the Iterator interface so it can be used
+     * as an Iterator type object to enable for-each loop syntax.
+     */
+    private class ArrayRingBufferIterator implements Iterator<T> {
+        private int currentIdx;
+
+        public ArrayRingBufferIterator() {
+            // Initialize wizPos to the font of the queue.
+            currentIdx = first;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentIdx != last;
+        }
+
+        @Override
+        public T next() {
+            T res = rb[currentIdx];
+            currentIdx = (currentIdx + 1) % capacity();
+            return res;
+        }
     }
 
     // TODO: When you get to part 4, implement the needed code to support
