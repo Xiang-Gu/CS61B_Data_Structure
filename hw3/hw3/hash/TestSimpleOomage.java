@@ -22,10 +22,26 @@ public class TestSimpleOomage {
 
     @Test
     public void testHashCodePerfect() {
-        /* TODO: Write a test that ensures the hashCode is perfect,
-          meaning no two SimpleOomages should EVER have the same
-          hashCode UNLESS they have the same red, blue, and green values!
-         */
+        SimpleOomage target = new SimpleOomage(20, 125, 205);
+        // Try out every possible combination of r,g,b values and
+        // assert equals only if r,g,b are equal to 140, 55, and 245.
+        // Assert not equals for every other r,g,b value.
+        for (int i = 0; i < 52; i++) {
+            for (int j = 0; j < 52; j++) {
+                for (int k = 0; k < 52; k++) {
+                    int red = i * 5;
+                    int green = j * 5;
+                    int blue = k * 5;
+                    SimpleOomage other = new SimpleOomage(red, green, blue);
+
+                    if (red == 20 && green == 125 && blue == 205) {
+                        assertEquals(target.hashCode(), other.hashCode());
+                    } else {
+                        assertNotEquals(target.hashCode(), other.hashCode());
+                    }
+                }
+            }
+        }
     }
 
     @Test
@@ -39,7 +55,6 @@ public class TestSimpleOomage {
         assertNotEquals(ooA, "ketchup");
     }
 
-    /*
     @Test
     public void testHashCodeAndEqualsConsistency() {
         SimpleOomage ooA = new SimpleOomage(5, 10, 20);
@@ -47,10 +62,10 @@ public class TestSimpleOomage {
         HashSet<SimpleOomage> hashSet = new HashSet<>();
         hashSet.add(ooA);
         assertTrue(hashSet.contains(ooA2));
-    }*/
+    }
 
     /* TODO: Uncomment this test after you finish haveNiceHashCodeSpread in OomageTestUtility */
-    /*@Test
+    @Test
     public void testRandomOomagesHashCodeSpread() {
         List<Oomage> oomages = new ArrayList<>();
         int N = 10000;
@@ -60,7 +75,7 @@ public class TestSimpleOomage {
         }
 
         assertTrue(OomageTestUtility.haveNiceHashCodeSpread(oomages, 10));
-    }*/
+    }
 
     /** Calls tests for SimpleOomage. */
     public static void main(String[] args) {
