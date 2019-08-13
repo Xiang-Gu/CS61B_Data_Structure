@@ -27,7 +27,9 @@ public class BoardGraph implements AStarGraph<Board> {
 
     @Override
     public double estimatedDistanceToGoal(Board s, Board goal) {
-        //return 0;
+//        return 0;
+
+        //Manhattan distance heuristic
         int maxVal = s.size() * s.size();
 
         int totalDistance = 0;

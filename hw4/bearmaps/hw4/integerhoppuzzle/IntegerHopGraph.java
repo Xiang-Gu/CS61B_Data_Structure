@@ -25,6 +25,9 @@ public class IntegerHopGraph implements AStarGraph<Integer> {
 
     @Override
     public double estimatedDistanceToGoal(Integer s, Integer goal) {
+        if (!s.equals(goal)) {
+            return 1;
+        }
         // possibly fun challenge: Try to find an admissible heuristic that
         // speeds up your search. This is tough!
         return 0;
