@@ -42,8 +42,15 @@ public class MergeSort {
      */
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
-        // Your code here!
-        return null;
+        Queue<Queue<Item>> result = new Queue<>();
+
+        for (Item item : items) {
+            Queue<Item> singleItemQueue = new Queue<>();
+            singleItemQueue.enqueue(item);
+            result.enqueue(singleItemQueue);
+        }
+
+        return result;
     }
 
     /**
@@ -61,8 +68,14 @@ public class MergeSort {
      */
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
-        // Your code here!
-        return null;
+        Queue<Item> result = new Queue<>();
+
+        int totalNum = q1.size() + q2.size();
+        while (result.size() != totalNum) {
+            result.enqueue(getMin(q1, q2));
+        }
+
+        return result;
     }
 
     /**
@@ -77,7 +90,16 @@ public class MergeSort {
      */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
-        // Your code here!
-        return items;
+        // What a wonderful ITERATIVE implementation of the recursive idea!
+        Queue<Queue<Item>> result = makeSingleItemQueues(items);
+
+        while (result.size() > 1) {
+            Queue<Item> q1 = result.dequeue();
+            Queue<Item> q2 = result.dequeue();
+            Queue<Item> mergedQueue = mergeSortedQueues(q1, q2);
+            result.enqueue(mergedQueue);
+        }
+
+        return result.dequeue();
     }
 }

@@ -2,16 +2,32 @@ import edu.princeton.cs.algs4.Queue;
 
 import org.junit.Test;
 
+import java.util.Random;
+
+import static org.junit.Assert.*;
+
 public class TestSortAlgs {
 
     @Test
     public void testQuickSort() {
-
+        Queue<Integer> tas = new Queue<Integer>();
+        Random random = new Random();
+        for (int i = 0; i < 1000000; i++) {
+            int next = random.nextInt();
+            tas.enqueue(next);
+        }
+        assertEquals(true, isSorted(QuickSort.quickSort(tas)));
     }
 
     @Test
     public void testMergeSort() {
-
+        Queue<Integer> tas = new Queue<Integer>();
+        Random random = new Random();
+        for (int i = 0; i < 1000000; i++) {
+            int next = random.nextInt();
+            tas.enqueue(next);
+        }
+        assertEquals(true, isSorted(MergeSort.mergeSort(tas)));
     }
 
     /**
